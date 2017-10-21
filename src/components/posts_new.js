@@ -6,10 +6,8 @@ import { createPost } from '../actions';
 
 class PostsNew extends Component {
   renderField(field) {
-    console.log(field);
     const { meta: { touched, error } } = field;
     const className=`form group ${touched && error ? 'has-danger': "" }`;
-    console.log(field.value)
     return (
       <div className={className}>
         <label>{field.label}</label>
@@ -39,13 +37,18 @@ class PostsNew extends Component {
           component={this.renderField}
         />
         <Field
-          label="Categories"
-          name="categories"
+          label="Category"
+          name="category"
           component={this.renderField}
         />
         <Field
-          label="Post Content"
-          name="content"
+          label="Author"
+          name="author"
+          component={this.renderField}
+        />
+        <Field
+          label="Body"
+          name="body"
           component={this.renderField}
         />
         <button type="submit" className="btn btn-primary">Submit</button>
@@ -68,6 +71,10 @@ function validate(values) {
 
   if (!values.content) {
     errors.content = "Enter some content."
+  }
+
+  if (!values.body) {
+    errors.body = "Enter some post content."
   }
 
   return errors;

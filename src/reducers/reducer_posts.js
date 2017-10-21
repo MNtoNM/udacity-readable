@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FETCH_POSTS, FETCH_POST, DELETE_POST } from '../actions';
+import { FETCH_POSTS, FETCH_POST, DELETE_POST, CREATE_POST } from '../actions';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -9,6 +9,8 @@ export default function (state = {}, action) {
       return { ...state, [action.payload.data.id]: action.payload.data  };
     case DELETE_POST:
       return _.omit(state, action.payload);
+    case CREATE_POST:
+      return {...state, [action.id]: action.payload.data }
     default:
       return state;
   }
