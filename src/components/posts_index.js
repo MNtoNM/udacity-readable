@@ -5,30 +5,41 @@ import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
 
 class PostsIndex extends Component {
+
+
   componentDidMount() {
     this.props.fetchPosts();
   }
 
   renderPosts() {
     return _.map(this.props.posts, post => {
-      // console.log(post.id)
+      if (!post) {
+        return <div>Loading...</div>;
+      }
       return (
         <li className="list-group-item" key={post.id}>
           <div className="container">
             <div className="row">
-              <div className="col-md-3">
+              <div className="col-md-4">
                 <Link to={`/posts/${post.id}`}>
                   {post.title}
                 </Link>
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 {post.category}
               </div>
-              <div className="col-md-3">
+              <div className="col-md-2">
                 {post.author}
               </div>
-              <div className="col-md-3">
-                {post.voteScore}
+              <div className="col-md-2">
+              <i className="fa fa-thumbs-up" aria-hidden="true">&nbsp;&nbsp;</i>
+                {post.voteScore}&nbsp;&nbsp;
+              <i className="fa fa-thumbs-down" aria-hidden="true"></i>
+              </div>
+              <div className="col-md-2">
+                <Link to={`/posts/${post.id}/edit`} >
+                  Edit
+                </Link>
               </div>
             </div>
           </div>

@@ -11,3 +11,16 @@ form a {
 .btn {
   margin: 5px;
 }
+
+.fa {
+  font-size: 2em;
+}
+
+.fa-thumbs-up {
+  color: #0f0;
+}
+
+.fa-thumbs-down {
+  margin-left: 10px;
+  color: #f00;
+}

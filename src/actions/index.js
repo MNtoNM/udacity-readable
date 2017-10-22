@@ -1,7 +1,6 @@
 import axios from 'axios';
 import uuid from 'uuid';
 
-
 const ROOT_URL = "http://localhost:3001"
 
 const config = {
@@ -22,6 +21,36 @@ export function fetchPosts() {
   };
 }
 
+function createPostSuccess(data) {
+    return {
+        type: CREATE_POST,
+        payload: data
+    };
+}
+
+export function createPost(values, callback) {
+    const { title, body, author, category } = values;
+
+    const data = {
+        id: uuid(),
+        timestamp: Date.now(),
+        title,
+        body,
+        author,
+        category
+    }
+
+    return dispatch => {
+        axios.post(`${ROOT_URL}/posts`, data, config)
+            .then(res => {
+                callback();
+                dispatch(createPostSuccess(res.data));
+            });
+
+    }
+}
+
+
 // export function createPost(values, callback) {
 //   const request = axios.post(`${ROOT_URL}/posts`, values, config )
 //   .then(() => callback());
@@ -38,21 +67,21 @@ export function fetchPosts() {
 //   };
 // }
 
-export const addPost = (post) => {
-  return fetch(`${ROOT_URL}/posts`, {
-    method: 'POST',
-    headers: config,
-    body: JSON.stringify(post)
-  })
-}
-
-export const createPost = (post, callback) => {
-  return (dispatch) => {
-    addPost(post).then(() => callback())
-    dispatch({ type: CREATE_POST, post })
-  }
-}
-
+// export const addPost = (post) => {
+//   return fetch(`${ROOT_URL}/posts`, {
+//     method: 'POST',
+//     headers: config,
+//     payload: JSON.stringify(post)
+//   })
+// }
+//
+// export const createPost = (post, callback) => {
+//   return (dispatch) => {
+//     addPost(post).then(() => callback())
+//     dispatch({ type: CREATE_POST, post })
+//   }
+// }
+//
 export function fetchPost(id) {
   const request = axios.get(`${ROOT_URL}/posts/${id}`, config)
 
