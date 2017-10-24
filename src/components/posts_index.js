@@ -1,12 +1,13 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
+import { postVoteIncrement /* , postVoteDecrement */ } from '../actions';
+
 
 class PostsIndex extends Component {
-
-
   componentDidMount() {
     this.props.fetchPosts();
   }
@@ -32,13 +33,20 @@ class PostsIndex extends Component {
                 {post.author}
               </div>
               <div className="col-md-2">
-              <i className="fa fa-thumbs-up" aria-hidden="true">&nbsp;&nbsp;</i>
+              <i
+                className="fa fa-thumbs-up"
+                aria-hidden="true"
+                onClick={() => {
+                  this.props.postVoteIncrement(post);
+                }}
+                >
+                &nbsp;&nbsp;</i>
                 {post.voteScore}&nbsp;&nbsp;
               <i className="fa fa-thumbs-down" aria-hidden="true"></i>
               </div>
               <div className="col-md-2">
                 <Link to={`/posts/${post.id}/edit`} >
-                  Edit
+                  Edit {post.id}
                 </Link>
               </div>
             </div>
@@ -69,4 +77,11 @@ function mapStateToProps(state) {
   return { posts: state.posts };
 }
 
-export default connect(mapStateToProps, { fetchPosts })(PostsIndex);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({
+        postVoteIncrement,
+        fetchPosts,
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(PostsIndex);

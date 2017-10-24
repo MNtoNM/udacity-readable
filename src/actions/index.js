@@ -51,6 +51,9 @@ export function createPost(values, callback) {
 }
 
 
+
+
+
 // export function createPost(values, callback) {
 //   const request = axios.post(`${ROOT_URL}/posts`, values, config )
 //   .then(() => callback());
@@ -98,5 +101,32 @@ export function deletePost(id, callback) {
   return {
     type: DELETE_POST,
     payload: id
+  }
+}
+
+// Increment Posts
+
+export const POSTVOTE_INCREMENT = 'POSTVOTE_INCREMENT';
+export const POST_UPVOTE = 'POST_UPVOTE';
+
+export function postUpVote(){
+  return {
+    type: POST_UPVOTE
+  }
+}
+
+export function getUpVote(json) {
+  return {
+    type: POSTVOTE_INCREMENT,
+    result: json,
+  }
+}
+
+export function postVoteIncrement(post) {
+  return function (dispatch){
+    dispatch(postUpVote())
+    return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({option: 'upVote'}) })
+      .then(response => response.json())
+      .then(json => {dispatch(getUpVote(json))})
   }
 }

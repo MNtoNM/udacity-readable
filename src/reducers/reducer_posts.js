@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FETCH_POSTS, FETCH_POST, DELETE_POST, CREATE_POST } from '../actions';
+import { FETCH_POSTS, FETCH_POST, DELETE_POST, CREATE_POST, POSTVOTE_INCREMENT} from '../actions';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -13,6 +13,16 @@ export default function (state = {}, action) {
       return {...state, [action.id]: action.payload.data }
       // return state.concat([action.post])
       // return Object.assign({}, state, [action.id]: action.payload.data )
+    case POSTVOTE_INCREMENT:
+      return {
+        ...state, posts: _.map(state.posts, post => {
+          if(post.id === action.result.id) {
+            return Object.assign({}, post, {voteScore: action.result.voteScore})
+          }
+        return post
+    })
+  }
+
     default:
       return state;
   }
