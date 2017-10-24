@@ -19,7 +19,7 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),)}>
     <BrowserRouter>
       <Switch>
-        <Route path='/posts/:id/edit' component={PostsEdit} />
+        <Route path='/posts/:id/edit' component={PostsNew} />
         <Route path='/posts/new' component={PostsNew} />
         <Route path='/posts/:id' component={PostsShow} />
         <Route path='/' component={PostsIndex} />

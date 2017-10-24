@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
-import { postVoteIncrement /* , postVoteDecrement */ } from '../actions';
+import { postVoteIncrement, postVoteDecrement } from '../actions';
 
 
 class PostsIndex extends Component {
@@ -39,10 +39,17 @@ class PostsIndex extends Component {
                 onClick={() => {
                   this.props.postVoteIncrement(post);
                 }}
-                >
+              >
                 &nbsp;&nbsp;</i>
                 {post.voteScore}&nbsp;&nbsp;
-              <i className="fa fa-thumbs-down" aria-hidden="true"></i>
+              <i
+                className="fa fa-thumbs-down"
+                aria-hidden="true"
+                onClick={() => {
+                  this.props.postVoteDecrement(post);
+                }}
+              >
+              </i>
               </div>
               <div className="col-md-2">
                 <Link to={`/posts/${post.id}/edit`} >
@@ -80,6 +87,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         postVoteIncrement,
+        postVoteDecrement,
         fetchPosts,
     }, dispatch)
 }

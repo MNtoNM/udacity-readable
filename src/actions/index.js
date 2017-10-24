@@ -50,41 +50,6 @@ export function createPost(values, callback) {
     }
 }
 
-
-
-
-
-// export function createPost(values, callback) {
-//   const request = axios.post(`${ROOT_URL}/posts`, values, config )
-//   .then(() => callback());
-//
-//   return (dispatch) => {
-//     request.then(( {data} ) => {
-//       dispatch({
-//         type: CREATE_POST,
-//         id: uuid(),
-//         timestamp: Date.now,
-//         payload: data
-//       })
-//     })
-//   };
-// }
-
-// export const addPost = (post) => {
-//   return fetch(`${ROOT_URL}/posts`, {
-//     method: 'POST',
-//     headers: config,
-//     payload: JSON.stringify(post)
-//   })
-// }
-//
-// export const createPost = (post, callback) => {
-//   return (dispatch) => {
-//     addPost(post).then(() => callback())
-//     dispatch({ type: CREATE_POST, post })
-//   }
-// }
-//
 export function fetchPost(id) {
   const request = axios.get(`${ROOT_URL}/posts/${id}`, config)
 
@@ -128,5 +93,31 @@ export function postVoteIncrement(post) {
     return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({option: 'upVote'}) })
       .then(response => response.json())
       .then(json => {dispatch(getUpVote(json))})
+  }
+}
+
+// Decrement Posts
+export const POSTVOTE_DECREMENT = 'POSTVOTE_DECREMENT';
+export const POST_DOWNVOTE = 'POST_DOWNVOTE';
+
+export function postDownVote(){
+  return {
+    type: POST_DOWNVOTE
+  }
+}
+
+export function getDownVote(json) {
+  return {
+    type: POSTVOTE_DECREMENT,
+    result: json,
+  }
+}
+
+export function postVoteDecrement(post) {
+  return function (dispatch){
+    dispatch(postDownVote())
+    return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({option: 'downVote'}) })
+      .then(response => response.json())
+      .then(json => {dispatch(getDownVote(json))})
   }
 }
