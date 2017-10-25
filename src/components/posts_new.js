@@ -6,10 +6,9 @@ import { createPost, fetchPost } from '../actions';
 
 class PostsNew extends Component {
   componentDidMount() {
-    console.log("Post from URL: ", this.props.match.params.id);
+    console.log("post.id from URL: ", this.props.match.params.id);
     if (this.props.match.params.id) {
       this.props.fetchPost(this.props.match.params.id)
-      console.log("Post Found: ", this.props.post)
     }
   }
 
@@ -36,7 +35,6 @@ class PostsNew extends Component {
 
   render() {
     const { handleSubmit, post } = this.props;
-    console.log("POST LOAD?", (post && post.title));
     const title = post && post.title;
     const category = post && post.category;
     const author = post && post.author;
