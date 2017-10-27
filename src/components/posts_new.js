@@ -47,12 +47,13 @@ class PostsNew extends Component {
           label="Title"
           name="title"
           component={this.renderField}
-          value={(post && post.title)}
+          value={post}
         />
         <Field
           label="Category"
           name="category"
           component={this.renderField}
+          value={category}
         />
         <Field
           label="Author"

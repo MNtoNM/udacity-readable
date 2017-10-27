@@ -22,7 +22,6 @@ class PostsIndex extends Component {
       }
 
       if (this.props.location.pathname.includes(post.category) || this.props.location.pathname === '/') {
-        // console.log(`${post.category} included!`);
         return (
           <li className="list-group-item" key={post.id}>
             <div className="container">

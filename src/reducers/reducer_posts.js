@@ -16,7 +16,17 @@ export default function (state = {}, action) {
       // return Object.assign({}, state, [action.id]: action.payload.data )
     case POSTVOTE_INCREMENT:
     // console.log(state);
-      return {...state, [action.result.id]: action.result};
+      // return {...state, [action.result.id]: action.result};
+      return {
+       ...state,
+       posts: _.map(state.posts, post => {
+         console.log("POST from reducer: ", post);
+         if(post.id === action.result.id)
+           return Object.assign({}, post, {voteScore: action.result.voteScore})
+           console.log("End of reducer", post)
+         return post
+       })
+     }
     case POSTVOTE_DECREMENT:
       return {...state, [action.result.id]: action.result};
 
