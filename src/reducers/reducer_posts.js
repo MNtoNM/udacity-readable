@@ -15,18 +15,22 @@ export default function (state = {}, action) {
       // return state.concat([action.post])
       // return Object.assign({}, state, [action.id]: action.payload.data )
     case POSTVOTE_INCREMENT:
-    // console.log(state);
-      // return {...state, [action.result.id]: action.result};
-      return {
-       ...state,
-       posts: _.map(state.posts, post => {
-         console.log("POST from reducer: ", post);
-         if(post.id === action.result.id)
-           return Object.assign({}, post, {voteScore: action.result.voteScore})
-           console.log("End of reducer", post)
-         return post
-       })
-     }
+    console.log("state from reducer: ", state);
+    console.log("action: ", action);
+    console.log("action.result: ", action.result)
+      return {...state, [action.result.id]: action.result};
+    //   return {
+    //    ...state,
+    //    posts: _.map(state.posts, post => {
+    //      console.log("POST from reducer: ", post);
+    //      console.log("post.id: ", post.id);
+    //      console.log("action.result.id: ", action.result.id);
+    //      if(post.id === action.result.id)
+    //        return Object.assign({}, post, {voteScore: action.result.voteScore})
+    //        console.log("End of reducer", post)
+    //      return post
+    //    })
+    //  }
     case POSTVOTE_DECREMENT:
       return {...state, [action.result.id]: action.result};
 

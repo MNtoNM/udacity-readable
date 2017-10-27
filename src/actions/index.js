@@ -91,7 +91,7 @@ export function postVoteIncrement(post) {
   console.log('POST from top of pvi: ', post)
   return function (dispatch){
     dispatch(postUpVote())
-    return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({'option': 'upVote'}) })
+    return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "upVote"}) })
       .then(response => response.json())
       .then(json => {dispatch(getUpVote(json))})
   }
