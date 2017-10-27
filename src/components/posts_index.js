@@ -13,53 +13,66 @@ class PostsIndex extends Component {
   }
 
   renderPosts() {
+    console.log("PATH:", this.props.location.pathname);
     return _.map(this.props.posts, post => {
+      // console.log("Post Category: ", post.category);
+
       if (!post) {
         return <div>Loading...</div>;
       }
-      return (
-        <li className="list-group-item" key={post.id}>
-          <div className="container">
-            <div className="row">
-              <div className="col-md-4">
-                <Link to={`/posts/${post.id}`}>
-                  {post.title}
-                </Link>
+
+      if (this.props.location.pathname.includes(post.category) || this.props.location.pathname === '/') {
+        // console.log(`${post.category} included!`);
+        return (
+          <li className="list-group-item" key={post.id}>
+            <div className="container">
+              <div className="row">
+                <div className="col-md-4">
+                  <Link to={`/posts/${post.id}`}>
+                    {post.title}
+                  </Link>
+                </div>
+                <div className="col-md-2">
+                  <Link to={`/${post.category}`}>
+                    {post.category}
+                  </Link>
+
+                </div>
+                <div className="col-md-2">
+                  {post.author}
+                </div>
+                <div className="col-md-2">
+                  <i
+                  className="fa fa-thumbs-up"
+                  aria-hidden="true"
+                  onClick={() => {
+                    this.props.postVoteIncrement(post);
+                  }}
+                  >
+                  &nbsp;&nbsp;</i>
+                  {post.voteScore}&nbsp;&nbsp;
+                  <i
+                  className="fa fa-thumbs-down"
+                  aria-hidden="true"
+                  onClick={() => {
+                    this.props.postVoteDecrement(post);
+                  }}
+                  >
+                  </i>
+                </div>
+                <div className="col-md-2">
+                  <Link to={`/posts/${post.id}/edit`} >
+                    Edit {post.id}
+                  </Link>
+                </div>
               </div>
-              <div className="col-md-2">
-                {post.category}
-              </div>
-              <div className="col-md-2">
-                {post.author}
-              </div>
-              <div className="col-md-2">
-              <i
-                className="fa fa-thumbs-up"
-                aria-hidden="true"
-                onClick={() => {
-                  this.props.postVoteIncrement(post);
-                }}
-              >
-                &nbsp;&nbsp;</i>
-                {post.voteScore}&nbsp;&nbsp;
-              <i
-                className="fa fa-thumbs-down"
-                aria-hidden="true"
-                onClick={() => {
-                  this.props.postVoteDecrement(post);
-                }}
-              >
-              </i>
-              </div>
-              <div className="col-md-2">
-                <Link to={`/posts/${post.id}/edit`} >
-                  Edit {post.id}
-                </Link>
-              </div>
-            </div>
           </div>
         </li>
       );
+
+      } else {
+        console.log(`${post.category} not included!`);
+      }
     });
   }
 

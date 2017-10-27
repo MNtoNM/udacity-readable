@@ -41,6 +41,7 @@ class PostsNew extends Component {
     const body = post && post.body;
     console.log("Postfields: ", title, category, author, body)
     return (
+      <div>
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
           label="Title"
@@ -66,7 +67,7 @@ class PostsNew extends Component {
         <button type="submit" className="btn btn-primary">Submit</button>
         <Link to='/' className="btn btn-danger">Cancel</Link>
       </form>
-
+    </div>
     );
   }
 }
