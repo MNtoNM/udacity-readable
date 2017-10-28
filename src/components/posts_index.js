@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
-import { postVoteIncrement, postVoteDecrement } from '../actions';
+import { postVoteIncrement, postVoteDecrement, deletePost } from '../actions';
 
 
 class PostsIndex extends Component {
@@ -42,27 +42,38 @@ class PostsIndex extends Component {
                 </div>
                 <div className="col-md-2">
                   <i
-                  className="fa fa-thumbs-up"
-                  aria-hidden="true"
-                  onClick={() => {
-                    this.props.postVoteIncrement(post);
-                  }}
-                  >
-                  &nbsp;&nbsp;</i>
+                    className="fa fa-thumbs-up"
+                    aria-hidden="true"
+                    onClick={() => {
+                      this.props.postVoteIncrement(post);
+                    }}
+                    >
+                    &nbsp;&nbsp;
+                  </i>
                   {post.voteScore}&nbsp;&nbsp;
                   <i
-                  className="fa fa-thumbs-down"
-                  aria-hidden="true"
-                  onClick={() => {
-                    this.props.postVoteDecrement(post);
-                  }}
+                    className="fa fa-thumbs-down"
+                    aria-hidden="true"
+                    onClick={() => {
+                      this.props.postVoteDecrement(post);
+                    }}
                   >
                   </i>
                 </div>
                 <div className="col-md-2">
                   <Link to={`/posts/${post.id}/edit`} >
-                    Edit {post.id}
+                    <i
+                      className="fa fa-edit"
+                      aria-hidden="true"
+                      onClick={() => {
+                        this.props.postVoteDecrement(post);
+                      }}
+                    >
+                    </i>
                   </Link>
+                  &nbsp; &nbsp;
+                  &nbsp; &nbsp;
+        
                 </div>
               </div>
           </div>
@@ -101,6 +112,7 @@ function mapDispatchToProps(dispatch) {
         postVoteIncrement,
         postVoteDecrement,
         fetchPosts,
+        deletePost
     }, dispatch)
 }
 

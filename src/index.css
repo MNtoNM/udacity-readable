@@ -4,6 +4,14 @@ body {
   font-family: sans-serif;
 }
 
+h1 {
+  text-align: center;
+}
+
+h6 {
+  color: #aab2b3;  
+}
+
 form a {
   margin: 5px;
 }
@@ -27,4 +35,9 @@ form a {
 
 nav {
   margin-bottom: 15px;
+}
+
+.post-container {
+  width: 75%;
+  margin: 0 auto;
 }
