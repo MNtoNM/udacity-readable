@@ -41,7 +41,7 @@ class PostsNew extends Component {
     const body = post && post.body;
     console.log("Postfields: ", title, category, author, body)
     return (
-      <div>
+      <div className="post-container">
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         <Field
           label="Title"

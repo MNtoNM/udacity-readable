@@ -43,8 +43,11 @@ export function createPost(values, callback) {
     return dispatch => {
         axios.post(`${ROOT_URL}/posts`, data, config)
             .then(res => {
-                callback();
+                console.log("response: ", res);
                 dispatch(createPostSuccess(res.data));
+                console.log("dispatched createPostSuccess")
+                callback();
+                console.log("callback called")
             });
 
     }
@@ -59,14 +62,15 @@ export function fetchPost(id) {
   }
 }
 
-export function deletePost(post, callback) {
-  const request = axios.delete(`${ROOT_URL}/posts/${post.id}`, config)
+export function deletePost(id, callback) {
+  console.log("ID in delete actoin: ", id)
+  const request = axios.delete(`${ROOT_URL}/posts/${id}`, config)
   .then(() => callback());
 
   return {
     type: DELETE_POST,
-    payload: post
-  }
+    payload: id
+  };
 }
 
 // Increment Posts
@@ -121,4 +125,98 @@ export function postVoteDecrement(post) {
       .then(response => response.json())
       .then(json => {dispatch(getDownVote(json))})
   }
+}
+
+// Sort Posts Index by either date or voteScore
+
+export const SORT_BY_DATE = 'SORT_BY_DATE';
+export const SORT_BY_VOTESCORE = 'SORT_BY_VOTESCORE';
+
+export const sortByDate = () => ({
+  type: SORT_BY_DATE
+});
+
+export const sortByVoteScore = () => ({
+  type: SORT_BY_VOTESCORE
+});
+
+
+// Fetch Comments
+export const FETCH_COMMENTS = 'FETCH_COMMENTS';
+
+export function fetchComments(postId) {
+  const request = axios.get(`${ROOT_URL}/posts/${postId}/comments`, config);
+
+  return {
+    type: FETCH_COMMENTS,
+    payload: request
+  };
+}
+
+// CommentVote Increment
+export const COMMENTVOTE_INCREMENT = 'COMMENTVOTE_INCREMENT';
+export const POST_COMMENT_UPVOTE = 'POST_COMMENT_UPVOTE';
+
+export function postCommentUpVote(){
+  return {
+    type: POST_COMMENT_UPVOTE
+  }
+}
+
+export function getCommentUpVote(json) {
+  return {
+    type: COMMENTVOTE_INCREMENT,
+    result: json,
+  }
+}
+
+export function commentVoteIncrement(comment) {
+  console.log("The Comment: ", comment)
+  return function (dispatch) {
+    dispatch(postCommentUpVote())
+    return fetch(`${ROOT_URL}/comments/${comment}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "upVote"}) })
+      .then(response => response.json())
+      .then(json => {dispatch(getCommentUpVote(json))})
+  }
+}
+
+// CommentVote Decrement
+export const COMMENTVOTE_DECREMENT = 'COMMENTVOTE_DECREMENT';
+export const POST_COMMENT_DOWNVOTE = 'POST_COMMENT_DOWNVOTE';
+
+export function postCommentDownVote(){
+  return {
+    type: POST_COMMENT_DOWNVOTE
+  }
+}
+
+export function getCommentDownVote(json) {
+  return {
+    type: COMMENTVOTE_DECREMENT,
+    result: json,
+  }
+}
+
+export function commentVoteDecrement(comment) {
+  console.log("The Comment: ", comment)
+  return function (dispatch) {
+    dispatch(postCommentDownVote())
+    return fetch(`${ROOT_URL}/comments/${comment}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "downVote"}) })
+      .then(response => response.json())
+      .then(json => {dispatch(getCommentDownVote(json))})
+  }
+}
+
+// Delete Comment
+export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+export function deleteComment(id, callback) {
+  console.log("ID in delete actoin: ", id)
+  const request = axios.delete(`${ROOT_URL}/comments/${id}`, config)
+  .then(() => callback());
+
+  return {
+    type: DELETE_COMMENT,
+    payload: id
+  };
 }

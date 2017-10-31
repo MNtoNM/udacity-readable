@@ -1,19 +1,41 @@
+import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { fetchPost, deletePost, fetchComments } from '../actions';
+import Comment from './Comment';
+import CommentForm from './comment_form';
 import { Link } from 'react-router-dom';
-import { fetchPost, deletePost } from '../actions';
 
 class PostsShow extends Component {
   componentDidMount() {
     const { id } = this.props.match.params
-    // this.props.match.params.id: React Router grabs 'id' from url
+    this.props.fetchComments(id);
     this.props.fetchPost(id);
   }
 
-  onDeleteClick() {
+  onDeleteClick = () => {
     const { id } = this.props.match.params;
     this.props.deletePost(id, () => {
       this.props.history.push('/');
+    });
+  }
+
+  renderComments = (props) => {
+    return _.map(this.props.comments, comment => {
+      console.log(comment.body);
+      const { id, body, author, voteScore} = comment;
+      return (
+        <li
+          className="list-group-item"
+          key={id}>
+          <Comment
+            id={id}
+            body={body}
+            author={author}
+            voteScore={voteScore}
+          />
+        </li>
+      );
     });
   }
 
@@ -30,6 +52,9 @@ class PostsShow extends Component {
         >
         Delete Post
         </button>
+        <Link to={`/posts/${post.id}/edit`}>
+          <span className="btn btn-primary">Edit Post</span>
+        </Link>
         <div className="post-container">
           <h1>{post.title}</h1>
           <p>{post.body}</p>
@@ -40,16 +65,24 @@ class PostsShow extends Component {
           <div className="post-container">
             <hr />
             <h3>Discussion</h3>
+            Comments: {post.commentCount}<br />
+            Post Vote Score: {post.voteScore }
+            <ul className="list-group">
+              { this.renderComments() }
+              <CommentForm />
+            </ul>
           </div>
-
         </div>
       </div>
     );
   }
 }
 
-function mapStateToProps({ posts }, ownProps) {
-  return { post: posts[ownProps.match.params.id] }
+function mapStateToProps({ posts, comments }, ownProps) {
+  return {
+    post: posts[ownProps.match.params.id],
+    comments
+  }
 }
 
-export default connect(mapStateToProps, { fetchPost, deletePost })(PostsShow);
+export default connect(mapStateToProps, { fetchPost, deletePost, fetchComments })(PostsShow);

@@ -9,7 +9,7 @@ h1 {
 }
 
 h6 {
-  color: #aab2b3;  
+  color: #aab2b3;
 }
 
 form a {
@@ -35,6 +35,10 @@ form a {
 
 nav {
   margin-bottom: 15px;
+}
+
+.right {
+  text-align: right;
 }
 
 .post-container {

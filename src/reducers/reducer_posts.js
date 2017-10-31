@@ -11,7 +11,7 @@ export default function (state = {}, action) {
     case DELETE_POST:
       return _.omit(state, action.payload);
     case CREATE_POST:
-      return {...state, [action.id]: action.payload.data }
+      return {...state, [action.id]: action.payload.data}
       // return state.concat([action.post])
       // return Object.assign({}, state, [action.id]: action.payload.data )
     case POSTVOTE_INCREMENT:
