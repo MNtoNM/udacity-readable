@@ -55,7 +55,7 @@ class PostsIndex extends Component {
                     }}
                     >
                   </i> &nbsp; &nbsp;
-                  {post.commentCount}
+                  
                 </div>
                 <div className="col-md-2">
                   <i

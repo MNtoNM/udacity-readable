@@ -12,14 +12,37 @@ export const CREATE_POST = 'CREATE_POST';
 export const FETCH_POST = 'FETCH_POST';
 export const DELETE_POST = 'DELETE_POST';
 
-export function fetchPosts() {
-  const request = axios.get(`${ROOT_URL}/posts`, config);
 
+export const REQUEST_POSTS = 'REQUEST_POSTS';
+export const RECEIVE_POSTS = 'RECEIVE_POSTS';
+
+
+
+export function requestPosts() {
   return {
-    type: FETCH_POSTS,
-    payload: request
-  };
+    type: REQUEST_POSTS
+  }
 }
+
+export function receivePosts(data) {
+  return {
+    type: RECEIVE_POSTS,
+    posts: data
+  }
+}
+
+export function fetchPosts() {
+  return dispatch => {
+    dispatch(requestPosts())
+    return axios.get(`${ROOT_URL}/posts`, config)
+      .then(response => response.data)
+      .then(data => dispatch(receivePosts(data)))
+  }
+}
+
+
+
+// Create a new post
 
 function createPostSuccess(data) {
     return {
@@ -43,11 +66,11 @@ export function createPost(values, callback) {
     return dispatch => {
         axios.post(`${ROOT_URL}/posts`, data, config)
             .then(res => {
-                console.log("response: ", res);
+                // console.log("response: ", res);
                 dispatch(createPostSuccess(res.data));
-                console.log("dispatched createPostSuccess")
+                // console.log("dispatched createPostSuccess")
                 callback();
-                console.log("callback called")
+                // console.log("callback called")
             });
 
     }
@@ -206,6 +229,44 @@ export function commentVoteDecrement(comment) {
       .then(json => {dispatch(getCommentDownVote(json))})
   }
 }
+
+// Create Comment
+export const CREATE_COMMENT = 'CREATE_COMMENT';
+
+function createCommentSuccess(data) {
+    return {
+        type: CREATE_COMMENT,
+        payload: data
+    };
+}
+
+export function createComment(parentId, values, callback) {
+    const { body, author } = values;
+
+    const data = {
+        id: uuid(),
+        timestamp: Date.now(),
+        body,
+        author,
+        parentId
+    }
+
+    return dispatch => {
+        axios.post(`${ROOT_URL}/comments`, data, config)
+            .then(res => {
+                console.log("response: ", res);
+                dispatch(createCommentSuccess(res.data));
+                console.log("dispatched createCommentSuccess")
+                callback();
+                console.log("callback called")
+            });
+
+    }
+}
+
+
+
+
 
 // Delete Comment
 export const DELETE_COMMENT = 'DELETE_COMMENT';

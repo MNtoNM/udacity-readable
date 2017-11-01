@@ -21,6 +21,7 @@ class PostsShow extends Component {
   }
 
   renderComments = (props) => {
+
     return _.map(this.props.comments, comment => {
       console.log(comment.body);
       const { id, body, author, voteScore} = comment;
@@ -65,7 +66,7 @@ class PostsShow extends Component {
           <div className="post-container">
             <hr />
             <h3>Discussion</h3>
-            Comments: {post.commentCount}<br />
+            Comments: {_.size(this.props.comments)}<br />
             Post Vote Score: {post.voteScore }
             <ul className="list-group">
               { this.renderComments() }
