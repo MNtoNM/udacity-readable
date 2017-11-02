@@ -298,20 +298,37 @@ export function fetchComment(id) {
   }
 }
 
+// Edit a Comment, Part 2/2: Update the comment body
+export const UPDATE_COMMENT = 'UPDATE_COMMENT';
+
+function updateCommentSuccess(data) {
+    return {
+        type: UPDATE_COMMENT,
+        payload: data
+    };
+}
+
+export function updateComment(id, comment) {
+  console.log("COMMENT from updateComment", comment)
+  const data = {
+    body: comment
+  }
+
+return dispatch => {
+  console.log("DATA: ", data)
+    axios.put(`${ROOT_URL}/comments/${id}`, data, config)
+        .then(res => {
+            console.log(" create comment response: ", res);
+            console.log("res.data: ", res.data)
+            dispatch(updateCommentSuccess(res.data));
+            console.log("dispatched updateCommentSuccess")
+            // callback();
+            // console.log("comment callback called")
+        });
+    }
+}
 
 
-//   axios.get(`${ROOT_URL}/comments/${id}`, config)
-//     return dispatch => {
-//         .then(res => {
-//         console.log("Comment fetch response: ", res);
-//         console.log("res.data: ", res.data)
-//         dispatch(receiveComment(res.data));
-//         console.log("Comment Fetched.")
-//         // callback();
-//         // console.log("comment callback called")
-//       });
-//   }
-// }
 
 // Delete Comment
 export const DELETE_COMMENT = 'DELETE_COMMENT';

@@ -19,7 +19,7 @@ class CommentForm extends Component {
           placeholder="Comment..."
           className="form-control"
           {...field.input}
-          />
+        />
       </div>
     );
   }

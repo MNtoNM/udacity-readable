@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { FETCH_COMMENTS, COMMENTVOTE_INCREMENT, COMMENTVOTE_DECREMENT, DELETE_COMMENT, CREATE_COMMENT, FETCH_COMMENT  } from '../actions';
+import { FETCH_COMMENTS, COMMENTVOTE_INCREMENT, COMMENTVOTE_DECREMENT, DELETE_COMMENT, CREATE_COMMENT, FETCH_COMMENT, UPDATE_COMMENT  } from '../actions';
 
 export default function (state = {}, action) {
   switch (action.type) {
@@ -14,13 +14,16 @@ export default function (state = {}, action) {
     case CREATE_COMMENT:
     console.log("Action from reducer: ", action)
       return {...state, [action.payload.id]: action.payload }
+    case UPDATE_COMMENT:
+    console.log("UPDATE_COMMENT action: ", action)
+      return {...state, [action.payload.id]: action.payload }
     case COMMENTVOTE_INCREMENT:
     // console.log("state from reducer: ", state);
     // console.log("action: ", action);
     // console.log("action.result: ", action.result)
-      return {...state, [action.result.id]: action.result};
+      return {...state, [action.result.id]: action.result };
     case COMMENTVOTE_DECREMENT:
-      return {...state, [action.result.id]: action.result};
+      return {...state, [action.result.id]: action.result };
 
     default:
       return state;
