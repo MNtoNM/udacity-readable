@@ -1,12 +1,17 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { commentVoteIncrement, commentVoteDecrement, deleteComment } from '../actions';
+import { commentVoteIncrement, commentVoteDecrement, deleteComment, fetchComment } from '../actions';
 import { connect } from 'react-redux';
 
 class Comment extends Component {
   state = {
-    display: 'comment'
+    display: 'comment',
+    commentBody: ''
   }
+  componentDidMount() {
+    // if this.state.display === 'edit', fetch comment body via api
+  }
+
   onDeleteCommentClick(id) {
     this.props.deleteComment(id, (callback) => {
       // Do Nothing
@@ -17,6 +22,7 @@ class Comment extends Component {
     {this.state.display === 'comment' ? console.log('comment') : console.log('not comment')}
 
     if (this.state.display === 'comment') {
+      console.log("THIS.PROPS.ID: ", this.props.id);
       return (
         <div className="container">
         <div className="row">
@@ -53,7 +59,9 @@ class Comment extends Component {
         className="fa fa-edit"
         aria-hidden="true"
         onClick={() => {
-          this.setState({ display: 'edit'})
+          console.log("THIS.PROPS from Comment edit btn: ", this.props);
+          this.props.fetchComment(this.props.id);
+          this.setState({ display: 'edit', commentBody: this.props.body });
         }}
         >
         </i>
@@ -84,6 +92,7 @@ class Comment extends Component {
             <div className="col-md-9">
             <input
               className="form-control"
+              value={this.state.commentBody}
             />
             </div>
             <div className="col-md-1">
@@ -107,4 +116,4 @@ class Comment extends Component {
 }
 
 
-export default connect(null, { commentVoteIncrement, commentVoteDecrement, deleteComment })(Comment);
+export default connect(null, { commentVoteIncrement, commentVoteDecrement, deleteComment, fetchComment })(Comment);

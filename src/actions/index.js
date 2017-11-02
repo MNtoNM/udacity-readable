@@ -66,13 +66,12 @@ export function createPost(values, callback) {
     return dispatch => {
         axios.post(`${ROOT_URL}/posts`, data, config)
             .then(res => {
-                // console.log("response: ", res);
+                console.log("response: ", res);
                 dispatch(createPostSuccess(res.data));
-                // console.log("dispatched createPostSuccess")
+                console.log("dispatched createPostSuccess")
                 callback();
-                // console.log("callback called")
+                console.log("callback called")
             });
-
     }
 }
 
@@ -240,33 +239,79 @@ function createCommentSuccess(data) {
     };
 }
 
-export function createComment(parentId, values, callback) {
-    const { body, author } = values;
-
+export function createComment(values, parentId) {
+  console.log("THE VALUES: ", values);
     const data = {
         id: uuid(),
         timestamp: Date.now(),
-        body,
-        author,
+        body: values.body,
+        author: values.author,
+        body: values.body,
+        author: values.author,
         parentId
     }
+    console.log("data object has been created: ", data);
+
 
     return dispatch => {
+      console.log("DATA: ", data)
         axios.post(`${ROOT_URL}/comments`, data, config)
             .then(res => {
-                console.log("response: ", res);
+                console.log(" create comment response: ", res);
+                // console.log("res.data: ", res.data)
                 dispatch(createCommentSuccess(res.data));
                 console.log("dispatched createCommentSuccess")
-                callback();
-                console.log("callback called")
+                // callback();
+                // console.log("comment callback called")
             });
 
     }
 }
 
 
+// Edit a Comment, Part 1/2: fetch the relevant comment via API
+export const REQUEST_COMMENT = 'REQUEST_COMMENT';
+export const RECEIVE_COMMENT = 'RECEIVE_COMMENT';
+export const FETCH_COMMENT = 'FETCH_COMMENT';
 
 
+export function requestComment(id) {
+  return {
+    type: REQUEST_COMMENT,
+    id
+  }
+}
+
+export function receiveComment(data) {
+  return {
+    type: RECEIVE_COMMENT,
+    payload: data
+  }
+}
+
+export function fetchComment(id) {
+  return function (dispatch){
+    dispatch(requestComment(id))
+    return fetch(`${ROOT_URL}/comments/${id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'GET' })
+      .then(response => response.json())
+      .then(json => {dispatch(receiveComment(json))})
+  }
+}
+
+
+
+//   axios.get(`${ROOT_URL}/comments/${id}`, config)
+//     return dispatch => {
+//         .then(res => {
+//         console.log("Comment fetch response: ", res);
+//         console.log("res.data: ", res.data)
+//         dispatch(receiveComment(res.data));
+//         console.log("Comment Fetched.")
+//         // callback();
+//         // console.log("comment callback called")
+//       });
+//   }
+// }
 
 // Delete Comment
 export const DELETE_COMMENT = 'DELETE_COMMENT';

@@ -15,27 +15,15 @@ export default function (state = {}, action) {
     case DELETE_POST:
       return _.omit(state, action.payload);
     case CREATE_POST:
-    console.log("action", action);
+    // console.log("action", action);
       return {...state, [action.payload.id]: action.payload}
-      // return state.concat([action.post])
-      // return Object.assign({}, state, [action.id]: action.payload.data )
+      // return state.concat([action.payload])
+      // return Object.assign({}, state, [action.payload.id]: action.payload )
     case POSTVOTE_INCREMENT:
-    console.log("state from reducer: ", state);
-    console.log("action: ", action);
-    console.log("action.result: ", action.result)
+      console.log("state from reducer: ", state);
+      console.log("action: ", action);
+      console.log("action.result: ", action.result)
       return {...state, [action.result.id]: action.result};
-    //   return {
-    //    ...state,
-    //    posts: _.map(state.posts, post => {
-    //      console.log("POST from reducer: ", post);
-    //      console.log("post.id: ", post.id);
-    //      console.log("action.result.id: ", action.result.id);
-    //      if(post.id === action.result.id)
-    //        return Object.assign({}, post, {voteScore: action.result.voteScore})
-    //        console.log("End of reducer", post)
-    //      return post
-    //    })
-    //  }
     case POSTVOTE_DECREMENT:
       return {...state, [action.result.id]: action.result};
 

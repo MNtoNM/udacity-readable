@@ -20,20 +20,23 @@ class PostsShow extends Component {
     });
   }
 
-  renderComments = (props) => {
-
+  renderComments = () => {
+    console.log("Are there comments? ", this.props.comments)
     return _.map(this.props.comments, comment => {
-      console.log(comment.body);
+      console.log("Comment: ", comment);
       const { id, body, author, voteScore} = comment;
+      console.log("parent id from renderComments: ", this.props.post.id);
       return (
         <li
           className="list-group-item"
-          key={id}>
+          key={id}
+        >
           <Comment
             id={id}
             body={body}
             author={author}
             voteScore={voteScore}
+            parentId={this.props.post.id}
           />
         </li>
       );
@@ -56,24 +59,27 @@ class PostsShow extends Component {
         <Link to={`/posts/${post.id}/edit`}>
           <span className="btn btn-primary">Edit Post</span>
         </Link>
-        <div className="post-container">
-          <h1>{post.title}</h1>
-          <p>{post.body}</p>
-
-          <h6><em>Posted in: {post.category}</em></h6>
-        </div>
-        <div className="comments">
+        <center>
           <div className="post-container">
-            <hr />
-            <h3>Discussion</h3>
-            Comments: {_.size(this.props.comments)}<br />
-            Post Vote Score: {post.voteScore }
-            <ul className="list-group">
-              { this.renderComments() }
-              <CommentForm />
-            </ul>
+            <h1>{post.title}</h1>
+            <p>{post.body}</p>
+
+            <h6><em>Posted in: {post.category}</em></h6>
           </div>
-        </div>
+
+          <div className="comments">
+            <div className="post-container">
+              <hr />
+              <h3>Discussion</h3>
+              Comments: {_.size(this.props.comments)}<br />
+              Post Vote Score: {post.voteScore }
+              <ul className="list-group">
+                { this.renderComments() }
+                <CommentForm parentId={post.id}/>
+              </ul>
+            </div>
+          </div>
+        </center>
       </div>
     );
   }
