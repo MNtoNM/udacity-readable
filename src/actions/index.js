@@ -7,6 +7,33 @@ const config = {
   headers: { 'Authorization': 'whatever' }
 };
 
+// Fetch List of Categories
+export const REQUEST_CATEGORIES = 'REQUEST_CATEGORIES';
+export const RECEIVE_CATEGORIES = 'RECEIVE_CATEGORIES';
+
+function requestCategories() {
+  return {
+    type: REQUEST_CATEGORIES
+  }
+}
+
+export function receiveCategories(data) {
+  return {
+    type: RECEIVE_CATEGORIES,
+    payload: data
+  }
+}
+
+export function fetchCategories() {
+  return dispatch => {
+    dispatch(requestCategories())
+    return axios.get(`${ROOT_URL}/categories`, config)
+      .then(response => response.data)
+      .then(data => dispatch(receiveCategories(data)))
+  }
+}
+
+// Fetch List of Posts
 export const FETCH_POSTS = 'FETCH_POSTS';
 export const CREATE_POST = 'CREATE_POST';
 export const FETCH_POST = 'FETCH_POST';

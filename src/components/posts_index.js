@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators} from 'redux';
 import { Link } from 'react-router-dom';
 import { fetchPosts } from '../actions';
-import { postVoteIncrement, postVoteDecrement, deletePost } from '../actions';
+import { postVoteIncrement, postVoteDecrement, deletePost, fetchCategories } from '../actions';
 
 
 class PostsIndex extends Component {
   componentDidMount() {
     this.props.fetchPosts();
+    this.props.fetchCategories();
   }
 
   onDeleteClick(id) {
@@ -17,6 +18,18 @@ class PostsIndex extends Component {
       // Do Nothing
     });
   }
+
+  renderCategories() {
+    return _.map(this.props.categories, category => (
+      // console.log("CATEGORY as iterated: ", category.name)
+      <span>
+        <Link to={`/${category.name}`}>
+          {category.name}&nbsp;
+        </Link>
+      </span>
+    ))
+  }
+
   renderPosts() {
     console.log("PATH:", this.props.location.pathname);
     return _.map(this.props.posts, post => {
@@ -54,8 +67,9 @@ class PostsIndex extends Component {
 
                     }}
                     >
+                    <span>&nbsp;{ post.commentCount}</span>
                   </i> &nbsp; &nbsp;
-                  
+
                 </div>
                 <div className="col-md-2">
                   <i
@@ -126,10 +140,22 @@ class PostsIndex extends Component {
         <ul className="list-group">
           {this.renderPosts()}
         </ul>
-        <div>
-          <Link className="btn btn-primary" to="/posts/new">
-          Add a Post
-          </Link>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-3">
+              <Link className="btn btn-primary" to="/posts/new">
+                Add a Post
+              </Link>
+            </div>
+            <div className="col-md-9 categories">
+              <strong>Categories:</strong>&nbsp;
+              <span>
+                {this.renderCategories()}
+                <Link to='/'>View All Posts</Link>
+              </span>
+
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -137,7 +163,10 @@ class PostsIndex extends Component {
 }
 
 function mapStateToProps(state) {
-  return { posts: state.posts };
+  return {
+    posts: state.posts,
+    categories: state.categories
+  };
 }
 
 function mapDispatchToProps(dispatch) {
@@ -145,7 +174,8 @@ function mapDispatchToProps(dispatch) {
         postVoteIncrement,
         postVoteDecrement,
         fetchPosts,
-        deletePost
+        deletePost,
+        fetchCategories
     }, dispatch)
 }
 
