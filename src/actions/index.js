@@ -68,9 +68,7 @@ export function fetchPosts() {
 }
 
 
-
 // Create a new post
-
 function createPostSuccess(data) {
     return {
         type: CREATE_POST,
@@ -178,15 +176,11 @@ export function postVoteDecrement(post) {
 
 // Sort Posts Index by either date or voteScore
 
-export const SORT_BY_DATE = 'SORT_BY_DATE';
-export const SORT_BY_VOTESCORE = 'SORT_BY_VOTESCORE';
+export const SORT_BY = 'SORT_BY';
 
-export const sortByDate = () => ({
-  type: SORT_BY_DATE
-});
-
-export const sortByVoteScore = () => ({
-  type: SORT_BY_VOTESCORE
+export const sortBy = (sort) => ({
+  type: SORT_BY,
+  payload: sort
 });
 
 

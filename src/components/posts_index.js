@@ -8,6 +8,11 @@ import { postVoteIncrement, postVoteDecrement, deletePost, fetchCategories } fro
 
 
 class PostsIndex extends Component {
+
+state = {
+  sortBy: 'createdAt'
+}
+
   componentDidMount() {
     this.props.fetchPosts();
     this.props.fetchCategories();
@@ -31,8 +36,12 @@ class PostsIndex extends Component {
   }
 
   renderPosts() {
+
+// console.log("Sort: ", this.state.sortBy);
+    const sortedPosts = _.orderBy(this.props.posts, [this.state.sortBy], ['desc'])
+
     console.log("PATH:", this.props.location.pathname);
-    return _.map(this.props.posts, post => {
+    return _.map(sortedPosts, post => {
       // console.log("Post Category: ", post.category);
       console.log("Is there a post?: ", post)
       if ((!post) || (post === undefined)) {
@@ -132,8 +141,30 @@ class PostsIndex extends Component {
             <div className="col-md-9">
               <h3>Posts</h3>
             </div>
+
+
+
+
+
+
+
+
+
+
             <div className="col-md-3">
-              <span className="right">By Date | By Popularity</span>
+              <span className="right">
+                <span
+                  onClick={() => {
+                    this.setState({ sortBy: 'createdAt'});
+                 }}>
+                  By Date
+                </span> |
+                <span
+                  onClick={() => {
+                    this.setState({ sortBy: 'voteScore'});
+                  }}>
+                  &nbsp;By Popularity</span>
+              </span>
             </div>
           </div>
         </div>
@@ -175,7 +206,7 @@ function mapDispatchToProps(dispatch) {
         postVoteDecrement,
         fetchPosts,
         deletePost,
-        fetchCategories
+        fetchCategories,
     }, dispatch)
 }
 
