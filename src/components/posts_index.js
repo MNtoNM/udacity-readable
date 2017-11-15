@@ -14,8 +14,11 @@ state = {
 }
 
   componentDidMount() {
-    this.props.fetchPosts();
-    this.props.fetchCategories();
+
+    if (!this.props.posts.length || !this.props.categories.length) {
+      this.props.fetchPosts();
+      this.props.fetchCategories();
+    }
   }
 
   onDeleteClick(id) {
@@ -27,7 +30,7 @@ state = {
   renderCategories() {
     return _.map(this.props.categories, category => (
       // console.log("CATEGORY as iterated: ", category.name)
-      <span>
+      <span key={category.name}>
         <Link to={`/${category.name}`}>
           {category.name}&nbsp;
         </Link>

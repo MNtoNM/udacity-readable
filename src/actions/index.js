@@ -120,6 +120,9 @@ export function deletePost(id, callback) {
   };
 }
 
+// Edit Posts
+
+
 // Increment Posts
 
 export const POSTVOTE_INCREMENT = 'POSTVOTE_INCREMENT';
@@ -349,7 +352,38 @@ return dispatch => {
     }
 }
 
+const UPDATE_POST = 'UPDATE_POST';
 
+function updatePostSuccess(data) {
+    return {
+        type: UPDATE_POST,
+        payload: data
+    };
+}
+
+export function updatePost(values, callback) {
+    const { title, body, author, category, id } = values;
+
+    const data = {
+        id,
+        timestamp: Date.now(),
+        title,
+        body,
+        author,
+        category
+    }
+
+    return dispatch => {
+        axios.put(`${ROOT_URL}/posts/${id}`, data, config)
+            .then(res => {
+                console.log("response: ", res);
+                dispatch(updatePostSuccess(res.data));
+                console.log("dispatched updatePostSuccess")
+                callback();
+                console.log("callback called")
+            });
+    }
+}
 
 // Delete Comment
 export const DELETE_COMMENT = 'DELETE_COMMENT';
