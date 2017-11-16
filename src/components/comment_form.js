@@ -11,13 +11,12 @@ class CommentForm extends Component {
   }
 
   renderBody(field) {
-    console.log("field from renderBody: ", field)
     return (
       <div>
         <input className="form-control"
           type="text"
           placeholder="Comment..."
-          className="form-control"
+
           {...field.input}
         />
       </div>
@@ -30,7 +29,7 @@ class CommentForm extends Component {
         <input className="form-control"
           type="text"
           placeholder="Author"
-          className="form-control"
+
           {...field.input}
           />
       </div>

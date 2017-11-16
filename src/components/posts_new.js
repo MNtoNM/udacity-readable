@@ -6,7 +6,6 @@ import { createPost, updatePost, fetchPost } from '../actions';
 
 class PostsNew extends Component {
   componentDidMount() {
-    console.log("post.id from URL: ", this.props.match.params.id);
     if (this.props.match.params.id) {
       this.props.fetchPost(this.props.match.params.id);
     }
@@ -29,7 +28,6 @@ class PostsNew extends Component {
         this.props.history.push('/');
       });
     }
-    console.log("-- LOOK HERE",values);
     this.props.updatePost({ ...values, id: this.props.initialValues.id }, () => {
       this.props.history.push('/');
     })
@@ -37,7 +35,6 @@ class PostsNew extends Component {
 
   render() {
     const { handleSubmit } = this.props;
-    console.log(this.props);
     return (
       <div className="post-container">
       <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>

@@ -91,11 +91,8 @@ export function createPost(values, callback) {
     return dispatch => {
         axios.post(`${ROOT_URL}/posts`, data, config)
             .then(res => {
-                console.log("response: ", res);
                 dispatch(createPostSuccess(res.data));
-                console.log("dispatched createPostSuccess")
                 callback();
-                console.log("callback called")
             });
     }
 }
@@ -110,8 +107,7 @@ export function fetchPost(id) {
 }
 
 export function deletePost(id, callback) {
-  console.log("ID in delete actoin: ", id)
-  const request = axios.delete(`${ROOT_URL}/posts/${id}`, config)
+  axios.delete(`${ROOT_URL}/posts/${id}`, config)
   .then(() => callback());
 
   return {
@@ -119,9 +115,6 @@ export function deletePost(id, callback) {
     payload: id
   };
 }
-
-// Edit Posts
-
 
 // Increment Posts
 
@@ -142,7 +135,6 @@ export function getUpVote(json) {
 }
 
 export function postVoteIncrement(post) {
-  console.log('POST from top of pvi: ', post)
   return function (dispatch){
     dispatch(postUpVote())
     return fetch(`${ROOT_URL}/posts/${post.id}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "upVote"}) })
@@ -217,7 +209,6 @@ export function getCommentUpVote(json) {
 }
 
 export function commentVoteIncrement(comment) {
-  console.log("The Comment: ", comment)
   return function (dispatch) {
     dispatch(postCommentUpVote())
     return fetch(`${ROOT_URL}/comments/${comment}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "upVote"}) })
@@ -244,7 +235,6 @@ export function getCommentDownVote(json) {
 }
 
 export function commentVoteDecrement(comment) {
-  console.log("The Comment: ", comment)
   return function (dispatch) {
     dispatch(postCommentDownVote())
     return fetch(`${ROOT_URL}/comments/${comment}`, {headers: {"Authorization": "Whatever", "Content-Type": "application/json"}, method: 'POST', body: JSON.stringify({"option": "downVote"}) })
@@ -264,31 +254,20 @@ function createCommentSuccess(data) {
 }
 
 export function createComment(values, parentId) {
-  console.log("THE VALUES: ", values);
     const data = {
         id: uuid(),
         timestamp: Date.now(),
         body: values.body,
         author: values.author,
-        body: values.body,
-        author: values.author,
         parentId
     }
-    console.log("data object has been created: ", data);
 
 
     return dispatch => {
-      console.log("DATA: ", data)
         axios.post(`${ROOT_URL}/comments`, data, config)
             .then(res => {
-                console.log(" create comment response: ", res);
-                // console.log("res.data: ", res.data)
                 dispatch(createCommentSuccess(res.data));
-                console.log("dispatched createCommentSuccess")
-                // callback();
-                // console.log("comment callback called")
             });
-
     }
 }
 
@@ -333,21 +312,14 @@ function updateCommentSuccess(data) {
 }
 
 export function updateComment(id, comment) {
-  console.log("COMMENT from updateComment", comment)
   const data = {
     body: comment
   }
 
 return dispatch => {
-  console.log("DATA: ", data)
     axios.put(`${ROOT_URL}/comments/${id}`, data, config)
         .then(res => {
-            console.log(" create comment response: ", res);
-            console.log("res.data: ", res.data)
             dispatch(updateCommentSuccess(res.data));
-            console.log("dispatched updateCommentSuccess")
-            // callback();
-            // console.log("comment callback called")
         });
     }
 }
@@ -376,11 +348,8 @@ export function updatePost(values, callback) {
     return dispatch => {
         axios.put(`${ROOT_URL}/posts/${id}`, data, config)
             .then(res => {
-                console.log("response: ", res);
                 dispatch(updatePostSuccess(res.data));
-                console.log("dispatched updatePostSuccess")
                 callback();
-                console.log("callback called")
             });
     }
 }
@@ -389,8 +358,7 @@ export function updatePost(values, callback) {
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export function deleteComment(id, callback) {
-  console.log("ID in delete actoin: ", id)
-  const request = axios.delete(`${ROOT_URL}/comments/${id}`, config)
+  axios.delete(`${ROOT_URL}/comments/${id}`, config)
   .then(() => callback());
 
   return {

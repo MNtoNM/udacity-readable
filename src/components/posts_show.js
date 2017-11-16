@@ -21,11 +21,8 @@ class PostsShow extends Component {
   }
 
   renderComments = () => {
-    console.log("Are there comments? ", this.props.comments)
     return _.map(this.props.comments, comment => {
-      console.log("Comment: ", comment);
       const { id, body, author, voteScore} = comment;
-      console.log("parent id from renderComments: ", this.props.post.id);
       return (
         <li
           className="list-group-item"

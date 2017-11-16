@@ -15,14 +15,10 @@ export default function (state = {}, action) {
     case DELETE_POST:
       return _.omit(state, action.payload);
     case CREATE_POST:
-    // console.log("action", action);
       return {...state, [action.payload.id]: action.payload}
       // return state.concat([action.payload])
       // return Object.assign({}, state, [action.payload.id]: action.payload )
     case POSTVOTE_INCREMENT:
-      console.log("state from reducer: ", state);
-      console.log("action: ", action);
-      console.log("action.result: ", action.result)
       return {...state, [action.result.id]: action.result};
     case POSTVOTE_DECREMENT:
       return {...state, [action.result.id]: action.result};

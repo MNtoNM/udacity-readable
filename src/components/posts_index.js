@@ -29,7 +29,6 @@ state = {
 
   renderCategories() {
     return _.map(this.props.categories, category => (
-      // console.log("CATEGORY as iterated: ", category.name)
       <span key={category.name}>
         <Link to={`/${category.name}`}>
           {category.name}&nbsp;
@@ -40,15 +39,10 @@ state = {
 
   renderPosts() {
 
-// console.log("Sort: ", this.state.sortBy);
     const sortedPosts = _.orderBy(this.props.posts, [this.state.sortBy], ['desc'])
 
-    console.log("PATH:", this.props.location.pathname);
     return _.map(sortedPosts, post => {
-      // console.log("Post Category: ", post.category);
-      console.log("Is there a post?: ", post)
       if ((!post) || (post === undefined)) {
-        console.log("Post is undefined!!!");
         return <div>Loading...</div>;
       }
 
@@ -131,7 +125,6 @@ state = {
       );
 
       } else {
-        console.log(`${post.category} not included!`);
       }
     });
   }
@@ -144,15 +137,6 @@ state = {
             <div className="col-md-9">
               <h3>Posts</h3>
             </div>
-
-
-
-
-
-
-
-
-
 
             <div className="col-md-3">
               <span className="right">

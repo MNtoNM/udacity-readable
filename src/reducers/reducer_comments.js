@@ -13,15 +13,10 @@ export default function (state = {}, action) {
     case DELETE_COMMENT:
       return _.omit(state, action.payload);
     case CREATE_COMMENT:
-    console.log("Action from reducer: ", action)
       return {...state, [action.payload.id]: action.payload }
     case UPDATE_COMMENT:
-    console.log("UPDATE_COMMENT action: ", action)
       return {...state, [action.payload.id]: action.payload }
     case COMMENTVOTE_INCREMENT:
-    // console.log("state from reducer: ", state);
-    // console.log("action: ", action);
-    // console.log("action.result: ", action.result)
       return {...state, [action.result.id]: action.result };
     case COMMENTVOTE_DECREMENT:
       return {...state, [action.result.id]: action.result };
