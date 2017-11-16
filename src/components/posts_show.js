@@ -41,10 +41,17 @@ class PostsShow extends Component {
   }
 
   render() {
+    function getDateTimeFromTimestamp(unixTimeStamp) {
+       var date = new Date(unixTimeStamp);
+       return ('0' + (date.getMonth() + 1)).slice(-2) + '/' + ('0' + date.getDate()).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+     }
+
     const { post } = this.props;
     if(!post) {
       return <div>Loading...</div>;
     }
+    // const formattedTime = convertTime(post.timestamp);
+    const formattedTime = getDateTimeFromTimestamp(post.timestamp)
     return (
       <div>
         <button
@@ -61,7 +68,7 @@ class PostsShow extends Component {
             <h1>{post.title}</h1>
             <p>{post.body}</p>
 
-            <h6><em>Posted in: {post.category}</em></h6>
+            <h6><em>Posted in {post.category} at { formattedTime }</em></h6>
           </div>
 
           <div className="comments">
