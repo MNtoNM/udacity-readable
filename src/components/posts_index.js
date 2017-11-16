@@ -69,9 +69,6 @@ state = {
                   <i
                     className="fa fa-comments"
                     aria-hidden="true"
-                    onClick={() => {
-
-                    }}
                     >
                     <span>&nbsp;{ post.commentCount}</span>
                   </i> &nbsp; &nbsp;
